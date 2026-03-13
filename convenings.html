@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convenings | AI Disclosures Project</title>
+    <meta name="description" content="Events and assemblies bringing together researchers, industry leaders, and policymakers to bridge the gap between AI development and democratic oversight.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="assets/logos/orange-full-color.svg">
+
+    <style>
+        :root {
+            --bg: #ffffff;
+            --accent: #FF7800;
+            --green: #145A2D;
+            --text-primary: #1a1a1a;
+            --text-muted: #5a5a54;
+            --border: #e2e1d8;
+
+            --font-serif: 'Newsreader', serif;
+            --font-mono: 'Space Mono', monospace;
+
+            --grid-gap: 2rem;
+            --section-pad: 6rem 0;
+
+            /* Shared item hover */
+            --item-hover-bg: rgba(255, 120, 0, 0.05);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-primary);
+            font-family: var(--font-serif);
+            font-size: 1.125rem;
+            line-height: 1.4;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        a:hover {
+            color: var(--green);
+        }
+
+        .mono {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 2rem 0 2rem;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            background-color: rgba(253, 252, 248, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+
+        .nav-brand {
+            font-weight: 600;
+            font-size: 1.25rem;
+            letter-spacing: -0.01em;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .nav-brand img {
+            height: 160px;
+        }
+
+        .nav-brand span {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            font-size: 1.4rem;
+            font-weight: 400;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--green);
+        }
+
+        .nav-links a.active {
+            color: var(--accent);
+            text-decoration: underline;
+            text-decoration-thickness: 1px;
+            text-underline-offset: 4px;
+        }
+
+        .nav-links a.active:hover {
+            color: var(--accent);
+        }
+
+        .page-header {
+            padding: 6rem 0 4rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .page-header h1 {
+            font-size: 5rem;
+            font-weight: 500;
+            letter-spacing: -0.03em;
+            line-height: 1;
+            margin-bottom: 1.5rem;
+        }
+
+        .page-intro {
+            font-size: 1.5rem;
+            max-width: 800px;
+            color: var(--text-muted);
+            line-height: 1.3;
+        }
+
+        .convening-card {
+            padding: 4rem 0;
+            border-bottom: 1px solid var(--border);
+            cursor: default;
+        }
+
+        .convening-grid {
+            display: grid;
+            grid-template-columns: 4fr 8fr;
+            gap: 4rem;
+        }
+
+        .convening-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .convening-date {
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: var(--accent);
+        }
+
+        .convening-location {
+            font-size: 1.125rem;
+            color: var(--text-muted);
+        }
+
+        .convening-title {
+            font-size: 3rem;
+            line-height: 1.1;
+            font-weight: 500;
+            margin-bottom: 2rem;
+            letter-spacing: -0.01em;
+        }
+
+        .tab-row {
+            display: flex;
+            gap: 2.5rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 2.5rem;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 0.75rem 0;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            color: var(--text-muted);
+            position: relative;
+            transition: color 0.2s ease;
+        }
+
+        .tab-btn.active {
+            color: var(--accent);
+        }
+
+        .tab-btn.active::after {
+            content: "";
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--accent);
+        }
+
+        .tab-content {
+            font-size: 1.25rem;
+            line-height: 1.6;
+            color: var(--text-primary);
+            max-width: 850px;
+        }
+
+        .tab-panel {
+            display: none;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        .expand-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+            background: none;
+            border: none;
+            padding: 0;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--accent);
+            cursor: pointer;
+        }
+
+        .expand-toggle .toggle-icon {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 1px solid var(--accent);
+            border-radius: 50%;
+            line-height: 16px;
+            text-align: center;
+            font-size: 1rem;
+            transition: transform 0.3s ease, border-color 0.2s ease;
+        }
+
+        .expand-toggle:hover .toggle-icon {
+            border-color: var(--green);
+        }
+
+        .expand-toggle.open .toggle-icon {
+            transform: rotate(45deg);
+        }
+
+        .expand-toggle .toggle-label {
+            margin-left: 0.5rem;
+        }
+
+        .expanded-panel {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease, opacity 0.3s ease 0.1s;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .expanded-panel.open {
+            max-height: 1200px;
+            opacity: 1;
+            visibility: visible;
+            transition: max-height 0.5s ease, opacity 0.3s ease, visibility 0s;
+        }
+
+        .expanded-inner {
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            margin-top: 2rem;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .detail-block h5 {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+        }
+
+        .detail-block p {
+            font-size: 1.05rem;
+            line-height: 1.5;
+        }
+
+        .outcome-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .outcome-list li {
+            display: flex;
+            gap: 1rem;
+            font-size: 1.05rem;
+            line-height: 1.5;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px dotted var(--border);
+        }
+
+        .outcome-list li::before {
+            content: '\2192';
+            color: var(--green);
+            flex-shrink: 0;
+        }
+
+        .participant-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem 3rem;
+            font-size: 1.125rem;
+        }
+
+        /* Paragraph & sentence level highlighting */
+        .tab-content > p,
+        .expanded-inner > p {
+            transition: color 0.2s ease;
+        }
+
+        .tab-content > p:hover,
+        .expanded-inner > p:hover {
+            color: var(--green);
+        }
+
+        .outcome-list li {
+            transition: color 0.2s ease;
+        }
+
+        .outcome-list li:hover {
+            color: var(--green);
+        }
+
+        .outcome-list li:hover::before {
+            color: var(--accent);
+        }
+
+        .detail-block p {
+            transition: color 0.2s ease;
+        }
+
+        .detail-block:hover p {
+            color: var(--green);
+        }
+
+        .detail-block:hover h5 {
+            color: var(--accent);
+        }
+
+        .participant-item {
+            padding: 0.5rem 0;
+            border-bottom: 1px dotted var(--border);
+            transition: color 0.2s ease;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .participant-item:hover {
+            color: var(--green);
+        }
+
+        .participant-item:hover .participant-org {
+            color: var(--accent);
+        }
+
+        .participant-org {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .theme-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .theme-tag {
+            padding: 0.4rem 0.8rem;
+            background: #f4f3ec;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .other-convenings {
+            padding: 6rem 0;
+        }
+
+        .other-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .other-item {
+            padding: 2rem;
+            border: 1px solid var(--border);
+            transition: border-color 0.3s ease;
+        }
+
+        .other-item:hover {
+            border-color: var(--green);
+        }
+
+        .other-label {
+            color: var(--green);
+            margin-bottom: 1rem;
+        }
+
+        .other-title {
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        footer {
+            background-color: var(--green);
+            color: #F2EFEB;
+            padding: 1.5rem 2rem 3rem 2rem;
+            margin-top: 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .footer-title {
+            font-size: 2rem;
+            font-weight: 500;
+            line-height: 1.1;
+        }
+
+        .footer-sub {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            opacity: 0.5;
+        }
+
+        @media (max-width: 1024px) {
+            .convening-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .other-grid {
+                grid-template-columns: 1fr;
+            }
+            .page-header h1 {
+                font-size: 3.5rem;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .nav-links {
+                display: none;
+            }
+            .detail-grid {
+                grid-template-columns: 1fr;
+            }
+            .participant-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="nav-brand">
+            <img src="assets/logos/logo-transparent.svg" alt="AI Disclosures Project">
+        </a>
+        <div class="nav-links">
+            <a href="index.html">Overview</a>
+            <a href="research.html">Research</a>
+            <a href="talks.html">Talks</a>
+            <a href="convenings.html" class="active">Convenings</a>
+            <a href="press.html">Writings</a>
+            <a href="blog.html">Blog</a>
+            <a href="people.html">People</a>
+        </div>
+    </nav>
+
+    <main class="container">
+
+        <header class="page-header">
+            <div class="mono" style="color: var(--accent); margin-bottom: 1rem;">Unconferences, workshops, assemblies</div>
+            <h1>Convenings</h1>
+            <p class="page-intro">Bringing together researchers, industry leaders, and policymakers to bridge the gap between AI markets, implementation mechanisms, and welfare outcomes for all.</p>
+        </header>
+
+        <!-- Bellagio Convening -->
+        <section class="convening-card" id="bellagio">
+            <div class="convening-grid">
+                <div class="convening-meta">
+                    <div class="mono">Upcoming</div>
+                    <div class="convening-date" style="font-size: 1.5rem;">27 April – 1 May 2026</div>
+                    <div class="convening-location" style="font-size: 1.25rem;">Rockefeller Foundation<br>Bellagio Center, Italy</div>
+                    <div class="theme-tags">
+                        <span class="theme-tag">Market Design</span>
+                        <span class="theme-tag">Value Creation</span>
+                        <span class="theme-tag">Protocols</span>
+                    </div>
+                </div>
+                <div class="convening-body">
+                    <h2 class="convening-title">Missing Mechanisms for the Future Human+AI Economy</h2>
+                    <p style="font-size: 1.25rem; font-style: italic; color: var(--text-muted); margin-bottom: 2rem;">Architectures and Mechanisms for Distributed Value Creation</p>
+                    <div class="tab-content">
+                        <p style="margin-bottom: 1.5rem;">This convening brings together 21 leading experts working across AI product development, economics, standards-setting, policy, and research to explore how to design market structures that are sustainable and allow for broad participation in value creation and distribution.</p>
+
+                        <button class="expand-toggle" id="toggle-bellagio" onclick="toggleExpand('bellagio')">
+                            <span class="toggle-icon">+</span><span class="toggle-label">More about this convening</span>
+                        </button>
+
+                        <div class="expanded-panel" id="panel-bellagio">
+                            <div class="expanded-inner">
+                        <p style="margin-bottom: 1.5rem;">AI systems increasingly rely on external content – text, images, audio, and data produced across the web – but the mechanisms for recognizing, attributing, and rewarding those inputs remain underdeveloped. As a result, value flows are opaque, even as AI-mediated products become more deeply integrated into everyday economic activity.</p>
+
+                        <div class="detail-grid" style="margin-top: 2rem;">
+                            <div class="detail-block">
+                                <h5>Format</h5>
+                                <p>Closed convening of AI leaders and builders with 21 invited participants over five days. Participants will prepare prototype mechanisms and RFC-type contributions.</p>
+                            </div>
+                            <div class="detail-block">
+                                <h5>Convened By</h5>
+                                <p>AI Disclosures Project at the Rockefeller Foundation Bellagio Center, Italy.</p>
+                            </div>
+                            <div class="detail-block">
+                                <h5>Contact</h5>
+                                <p>For questions: <a href="mailto:ilan@aidisclosures.org" style="color: var(--accent);">ilan@aidisclosures.org</a></p>
+                            </div>
+                        </div>
+
+                        <h5 style="font-family: var(--font-mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin: 2rem 0 1rem;">Key Questions</h5>
+                        <ul class="outcome-list">
+                            <li>What is the future of knowledge curation and consumption in the age of AI?</li>
+                            <li>What is the value-exchange under AI that will sustain existing content producers and incentivize new content production?</li>
+                            <li>What technical architectures – APIs, protocols, attribution systems – could support open, interoperable AI markets?</li>
+                            <li>What new AI-native business models could align creator incentives with AI product growth?</li>
+                            <li>What governance mechanisms do we need to make these markets trustworthy and consent-driven?</li>
+                        </ul>
+
+                        <h5 style="font-family: var(--font-mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin: 2rem 0 1rem;">Conveners</h5>
+                        <div class="participant-list">
+                            <div class="participant-item"><span>Tim O'Reilly</span><span class="participant-org">O'Reilly Media / AI Disclosures Project</span></div>
+                            <div class="participant-item"><span>Ilan Strauss</span><span class="participant-org">UCL IIPP / AI Disclosures Project</span></div>
+                        </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI FOO Camp -->
+        <section class="convening-card" id="foocamp">
+            <div class="convening-grid">
+                <div class="convening-meta">
+                    <div class="mono">O'Reilly Media with AI Disclosures Project</div>
+                    <div class="convening-date">June 26–28, 2026</div>
+                    <div class="convening-location">Lighthaven, Berkeley<br>California, USA</div>
+                    <div class="theme-tags">
+                        <span class="theme-tag">Agentic AI</span>
+                        <span class="theme-tag">Market Design</span>
+                        <span class="theme-tag">Business Models</span>
+                    </div>
+                </div>
+                <div class="convening-body">
+                    <h2 class="convening-title">Market Design and the AI Economy</h2>
+                    <p style="font-size: 1.25rem; font-style: italic; color: var(--text-muted); margin-bottom: 2rem;">A FOO Camp for the new agentic economy</p>
+                    <div class="tab-content">
+                        <p style="margin-bottom: 1.5rem;">You are invited to join a weekend "FOO" Camp to shape what AI-native markets should look like. As AI agents become a new layer for web discovery and transactions, they will reshape who captures value and where sustained value can ultimately reside.</p>
+
+                        <button class="expand-toggle" id="toggle-foocamp" onclick="toggleExpand('foocamp')">
+                            <span class="toggle-icon">+</span><span class="toggle-label">More about this convening</span>
+                        </button>
+
+                        <div class="expanded-panel" id="panel-foocamp">
+                            <div class="expanded-inner">
+                        <p style="margin-bottom: 1.5rem;">Over the weekend, we will consider together what sustainable business models in the agentic era can look like – models that can support third-party ecosystems, encourage high-quality participation, attribute value fairly, and reward innovation and honesty.</p>
+
+                        <div class="detail-grid" style="margin-top: 2rem;">
+                            <div class="detail-block">
+                                <h5>Format</h5>
+                                <p>Open unconference — self-organized sessions, 150+ attendees, three days.</p>
+                            </div>
+                            <div class="detail-block">
+                                <h5>Co-hosted By</h5>
+                                <p>O'Reilly Media, AI Disclosures Project, and Partners at Lighthaven, Berkeley, CA.</p>
+                            </div>
+                            <div class="detail-block">
+                                <h5>Join the Committee</h5>
+                                <p>Contact: <a href="mailto:ilan@aidisclosures.org" style="color: var(--accent);">ilan@aidisclosures.org</a></p>
+                            </div>
+                        </div>
+
+                        <h5 style="font-family: var(--font-mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin: 2rem 0 1rem;">Key Questions</h5>
+                        <ul class="outcome-list">
+                            <li>What is the future of knowledge curation and consumption in AI-native and agentic markets?</li>
+                            <li>If not 'clicks' or 'views', then what are the key signals through which agentic AI markets will value inputs?</li>
+                            <li>What are the new "win-win" AI-native business models for the web that can help scale agentic AI?</li>
+                            <li>What technical architectures would incentivize interoperability while reducing 'winner-takes-most' dynamics?</li>
+                            <li>How can inspectability, traceability, and interoperability be baked into agentic actions and markets?</li>
+                            <li>What can mature rights regimes (music, publishing, open source) teach us about AI-era markets?</li>
+                        </ul>
+
+                        <h5 style="font-family: var(--font-mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin: 2rem 0 1rem;">Who Attends</h5>
+                        <div class="participant-list">
+                            <div class="participant-item"><span>AI Product Designers</span><span class="participant-org">Industry / Labs</span></div>
+                            <div class="participant-item"><span>Economists</span><span class="participant-org">Academia / Research</span></div>
+                            <div class="participant-item"><span>Content Providers</span><span class="participant-org">Publishers / Creators</span></div>
+                            <div class="participant-item"><span>Policy Advocates</span><span class="participant-org">Regulators / Think Tanks</span></div>
+                        </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Other Convenings - Hidden until content is ready
+        <section class="other-convenings">
+            <div class="mono" style="color: var(--text-muted); border-bottom: 1px solid var(--border); padding-bottom: 1rem; margin-bottom: 2rem;">Other Convenings</div>
+            <div class="other-grid">
+                <article class="other-item">
+                    <div class="mono other-label">Future Entry</div>
+                    <h3 class="other-title">Title TBD</h3>
+                    <div class="mono" style="opacity: 0.6;">Date TBD / Location TBD</div>
+                </article>
+                <article class="other-item">
+                    <div class="mono other-label">Future Entry</div>
+                    <h3 class="other-title">Title TBD</h3>
+                    <div class="mono" style="opacity: 0.6;">Date TBD / Location TBD</div>
+                </article>
+                <article class="other-item">
+                    <div class="mono other-label">Future Entry</div>
+                    <h3 class="other-title">Title TBD</h3>
+                    <div class="mono" style="opacity: 0.6;">Date TBD / Location TBD</div>
+                </article>
+            </div>
+        </section>
+        -->
+
+    </main>
+
+    <footer>
+        <div>
+            <div class="footer-title">AI Disclosures Project</div>
+            <div class="footer-sub" style="margin-top: 1rem;">Code for Science & Society</div>
+            <div class="footer-sub" style="margin-top: 0.5rem;">
+                <a href="https://github.com/AI-Disclosures-Project" target="_blank" style="color: inherit; text-decoration: underline;">GitHub</a> ·
+                <a href="https://asimovaddendum.substack.com/" target="_blank" style="color: inherit; text-decoration: underline;">Substack</a> ·
+                <a href="https://x.com/AIdisclosures" target="_blank" style="color: inherit; text-decoration: underline;">X</a> ·
+                <a href="https://www.linkedin.com/company/the-ai-disclosures-project" target="_blank" style="color: inherit; text-decoration: underline;">LinkedIn</a>
+            </div>
+        </div>
+        <div style="text-align: right;">
+            <div class="footer-sub">© 2025 Tim O'Reilly and Ilan Strauss</div>
+            <div class="footer-sub" style="margin-top: 0.5rem;"><a href="privacy.html" style="color: inherit; text-decoration: none;">Privacy Policy</a></div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleExpand(id) {
+            const panel = document.getElementById('panel-' + id);
+            const btn = document.getElementById('toggle-' + id);
+            const label = btn.querySelector('.toggle-label');
+            const isOpen = panel.classList.contains('open');
+
+            panel.classList.toggle('open', !isOpen);
+            btn.classList.toggle('open', !isOpen);
+            label.textContent = isOpen ? 'More about this convening' : 'Less';
+        }
+
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const row = this.closest('.tab-row');
+                const tabGroup = row.dataset.tabs;
+                const targetPanel = this.dataset.tab;
+
+                // Update active button
+                row.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+
+                // Update active panel
+                const panels = document.querySelector(`[data-panels="${tabGroup}"]`);
+                if (panels) {
+                    panels.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+                    const activePanel = panels.querySelector(`[data-panel="${targetPanel}"]`);
+                    if (activePanel) activePanel.classList.add('active');
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

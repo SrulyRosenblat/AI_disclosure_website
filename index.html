@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Disclosures Project | Fair, Participatory AI Markets</title>
+    <meta name="description" content="Working to turn the notion of fair, participatory AI markets into functioning reality. Research, mechanisms, and convenings for the AI economy.">
+    <link rel="icon" type="image/svg+xml" href="assets/logos/orange-full-color.svg">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #ffffff;
+            --accent: #FF7800;
+            --green: #145A2D;
+            --text-primary: #1a1a1a;
+            --text-muted: #5a5a54;
+            --border: #e2e1d8;
+
+            --font-serif: 'Newsreader', serif;
+            --font-mono: 'Space Mono', monospace;
+
+            --grid-gap: 2rem;
+            --section-pad: 3rem 0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-primary);
+            font-family: var(--font-serif);
+            font-size: 1.125rem;
+            line-height: 1.4;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        ::selection {
+            background: var(--accent);
+            color: #ffffff;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        a:hover {
+            color: var(--green);
+        }
+
+        .mono {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 2rem 0 2rem;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            background-color: rgba(253, 252, 248, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+
+        .nav-brand {
+            font-weight: 600;
+            font-size: 1.25rem;
+            letter-spacing: -0.01em;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .nav-brand img {
+            display: none;
+        }
+
+        .nav-brand-text {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 0.25rem;
+            min-height: 160px;
+        }
+
+        .nav-brand-text .led-by {
+            font-family: var(--font-serif);
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .nav-brand-text .hosted-at {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+        }
+
+        .nav-brand-text .hosted-at a {
+            text-decoration: underline;
+            text-underline-offset: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            font-size: 1.4rem;
+            font-weight: 400;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--green);
+        }
+
+        .nav-links a.active {
+            color: var(--accent);
+            text-decoration: underline;
+            text-decoration-thickness: 1px;
+            text-underline-offset: 4px;
+        }
+
+        .nav-links a.active:hover {
+            color: var(--accent);
+        }
+
+        .hero {
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .logo-container {
+            position: relative;
+            max-width: clamp(400px, 60vw, 700px);
+            margin: -6% -11% -11% -11%;
+            cursor: pointer;
+        }
+
+        .hero-logo {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: opacity 0.5s ease;
+        }
+
+        .hero-logo.dissolving {
+            opacity: 0;
+        }
+
+        #particleCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .hero h2 {
+            color: var(--text-primary);
+            font-size: clamp(1.5rem, 3.5vw, 2.75rem);
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            font-weight: 500;
+            margin: -2rem 0 1rem 0;
+            max-width: 1000px;
+        }
+
+        .hero-meta {
+            font-size: clamp(0.9rem, 1.5vw, 1.25rem);
+            color: var(--text-muted);
+            font-weight: 400;
+            line-height: 1.3;
+            margin-bottom: 2rem;
+        }
+
+        .hero-meta a {
+            color: var(--text-muted);
+            text-decoration: underline;
+            text-underline-offset: 2px;
+        }
+
+        .hero-meta a:hover {
+            color: var(--green);
+        }
+
+        .big-picture-section h2 {
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .big-picture-section h2:hover {
+            color: var(--green);
+        }
+
+        .big-picture-section p {
+            transition: color 0.3s ease;
+        }
+
+        .big-picture-section p:hover {
+            color: var(--green);
+        }
+
+        .big-picture-section a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .big-picture-section a:hover {
+            color: var(--green);
+            text-decoration: underline;
+        }
+
+        .featured-article a:hover h2 {
+            color: var(--green);
+        }
+
+        .section-grid {
+            display: grid;
+            grid-template-columns: 2fr 10fr;
+            gap: 3rem;
+            padding: var(--section-pad);
+            border-top: 1px solid var(--border);
+        }
+
+        .section-label {
+            color: var(--accent);
+            margin-top: 0.5rem;
+        }
+
+        .mission-statement {
+            font-size: clamp(1.4rem, 2.2vw, 2.25rem);
+            line-height: 1.25;
+            letter-spacing: -0.01em;
+            font-weight: 400;
+            max-width: 900px;
+            color: var(--text-primary);
+        }
+
+        .mission-statement strong {
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        .intro-text {
+            font-size: 1.25rem;
+            line-height: 1.6;
+            color: var(--text-primary);
+            max-width: 850px;
+            margin-top: 2rem;
+            padding: 1.5rem 0 1.5rem 1.5rem;
+            border-left: 3px solid var(--accent);
+            background: linear-gradient(90deg, rgba(255, 120, 0, 0.04) 0%, transparent 100%);
+        }
+
+        .pillars-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0;
+        }
+
+        .pillar-card {
+            padding: 2rem;
+            border: 1px solid var(--border);
+            margin: -1px 0 0 -1px;
+            transition: background-color 0.3s ease, border-color 0.2s ease;
+        }
+
+        .pillar-card:hover {
+            background-color: rgba(20, 90, 45, 0.03);
+            border-color: var(--green);
+            z-index: 1;
+            position: relative;
+        }
+
+        .pillar-number {
+            color: var(--accent);
+            font-size: 2rem;
+            font-weight: 500;
+            line-height: 1;
+            margin-bottom: 1rem;
+            font-family: var(--font-serif);
+        }
+
+        .pillar-title {
+            font-size: 1.75rem;
+            font-weight: 500;
+            line-height: 1.1;
+            letter-spacing: -0.01em;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .pillar-desc {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            line-height: 1.55;
+        }
+
+        .pillar-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+            color: var(--accent);
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        .pillar-link:hover {
+            text-decoration: underline;
+        }
+
+        .expand-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: none;
+            border: 1px solid var(--border);
+            padding: 0.75rem 1.25rem;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: var(--text-primary);
+        }
+
+        .expand-toggle:hover {
+            border-color: var(--green);
+        }
+
+        .expand-toggle .toggle-icon {
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .expanded-panel {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+        .expanded-panel.open {
+            max-height: 2000px;
+        }
+
+        .convenings-preview {
+            background: rgba(20, 90, 45, 0.03);
+            padding: 2.5rem 0;
+            margin-top: 1rem;
+        }
+
+        .convenings-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 2rem;
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .convening-preview-card {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            padding: 2rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .convening-preview-card:hover {
+            border-color: var(--green);
+        }
+
+        .convening-date {
+            color: var(--accent);
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+
+        .convening-title {
+            font-size: 1.35rem;
+            font-weight: 500;
+            line-height: 1.2;
+            margin-bottom: 0.75rem;
+        }
+
+        .convening-location {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        footer {
+            background-color: var(--green);
+            color: #F2EFEB;
+            padding: 1.5rem 2rem 3rem 2rem;
+            margin-top: 3rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 2rem;
+            max-width: 1440px;
+            margin: 0 auto;
+        }
+
+        .footer-col h4 {
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .footer-links a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #F2EFEB;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .footer-links a::before {
+            content: "\2192";
+            color: var(--accent);
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: all 0.2s ease;
+        }
+
+        .footer-links a:hover::before {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .colophon {
+            padding-top: 3rem;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(242, 239, 235, 0.2);
+            display: flex;
+            justify-content: space-between;
+            color: rgba(242, 239, 235, 0.6);
+            font-size: 0.85rem;
+            max-width: 1440px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .colophon a {
+            color: rgba(242, 239, 235, 0.6);
+            text-decoration: none;
+        }
+
+        .colophon a:hover {
+            color: var(--accent);
+        }
+
+        /* Press Carousel */
+        .press-carousel-section {
+            padding: 4rem 0;
+            background: #fafaf8;
+            border-top: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .press-carousel {
+            overflow: visible;
+            overflow-x: clip;
+            position: relative;
+            margin-top: 1rem;
+            padding-top: 4px;
+        }
+
+        .press-carousel-track {
+            display: flex;
+            gap: 3rem;
+            animation: scroll 30s linear infinite;
+            width: max-content;
+        }
+
+        .press-carousel-track:hover {
+            animation-play-state: paused;
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .press-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            min-width: 300px;
+            padding: 1rem 1.5rem;
+            background: white;
+            border: 1px solid var(--border);
+            text-decoration: none;
+            transition: border-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .press-item:hover {
+            border-color: var(--green);
+            transform: translateY(-2px);
+        }
+
+        .press-outlet {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .press-headline {
+            font-family: var(--font-serif);
+            font-size: 1rem;
+            color: var(--text-primary);
+            line-height: 1.3;
+        }
+
+        .press-link {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            transition: color 0.2s ease;
+        }
+
+        .press-link:hover {
+            color: var(--green);
+        }
+
+        @media (max-width: 1024px) {
+            .section-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            .pillars-grid {
+                grid-template-columns: 1fr;
+            }
+            .convenings-grid {
+                grid-template-columns: 1fr;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-brand">
+            <div class="nav-brand-text">
+                <span class="led-by">Led by Tim O'Reilly & Ilan Strauss</span>
+                <span class="hosted-at">Hosted at <a href="https://codeforscience.org" target="_blank">Code for Science & Society</a></span>
+            </div>
+        </div>
+        <div class="nav-links">
+            <a href="index.html" class="active">Overview</a>
+            <a href="research.html">Research</a>
+            <a href="talks.html">Talks</a>
+            <a href="convenings.html">Convenings</a>
+            <a href="press.html">Writings</a>
+            <a href="blog.html">Blog</a>
+            <a href="people.html">People</a>
+        </div>
+    </nav>
+
+    <main class="container">
+
+        <section class="hero">
+            <div class="logo-container" id="logoContainer">
+                <img src="assets/logos/logo-transparent.svg" alt="AI Disclosures Project" class="hero-logo" id="heroLogo">
+                <canvas id="particleCanvas"></canvas>
+            </div>
+            <h2>Open, Participatory, Governable AI Markets</h2>
+        </section>
+
+        <section class="section-grid">
+            <div class="section-label mono">01 / Mission</div>
+            <div>
+                <div class="mission-statement">
+                    Turning the notion of <strong>inspectable, participatory, value-creating AI markets</strong> into functioning reality. We bring a political-economy lens to the technical architectures and mechanisms that shape who benefits from AI and how.
+                </div>
+                <p class="intro-text">
+                    AI systems increasingly depend on the content, creativity, and data produced across the open web, yet the mechanisms for attributing, rewarding, and sustaining those inputs remain almost entirely absent. Without new incentives to produce on the open web, AI companies will stagnate. What is needed are new market institutions, technical standards, and economic mechanisms that ensure value circulates broadly rather than concentrating in a handful of closed systems.
+                </p>
+            </div>
+        </section>
+
+        <section class="section-grid" style="padding-bottom: 3rem;">
+            <div class="section-label mono">02 / How We Work</div>
+            <div class="pillars-grid">
+                <div class="pillar-card">
+                    <h3 class="pillar-title">Protocols & Architecture</h3>
+                    <p class="pillar-desc">
+                        Examining open, interoperable technical architectures—including building on the Model Context Protocol (MCP)—to support functioning markets across AI layers without locking value into closed systems.
+                    </p>
+                    <a href="research.html" class="pillar-link">View Research →</a>
+                </div>
+                <div class="pillar-card">
+                    <h3 class="pillar-title">Mechanisms</h3>
+                    <p class="pillar-desc">
+                        Designing incentive mechanisms that align the interests of creators, platforms, and AI systems. Drawing on mechanism design theory to make attribution, compensation, and participation automatic and durable.
+                    </p>
+                    <a href="research.html" class="pillar-link">View Research →</a>
+                </div>
+                <div class="pillar-card">
+                    <h3 class="pillar-title">Prototyping</h3>
+                    <p class="pillar-desc">
+                        Working with builders, platforms, and policymakers to shape the standards and tools that get actually adopted. Making market design infrastructure enforceable, inspectable, participatory, and governable.
+                    </p>
+                    <a href="research.html" class="pillar-link">View Research →</a>
+                </div>
+                <div class="pillar-card">
+                    <h3 class="pillar-title">Convenings & Partnerships</h3>
+                    <p class="pillar-desc">
+                        Building shared technical standards and norms across communities. Bringing together economists, AI labs, platforms, builders, and policymakers who can design and implement change.
+                    </p>
+                    <a href="convenings.html" class="pillar-link">View Convenings →</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="protocols-explainer big-picture-section" style="padding: 3rem 0; border-top: 1px solid var(--border);">
+            <div class="mono" style="color: var(--accent); margin-bottom: 1rem;">The Big Picture</div>
+            <h2 style="font-size: 2rem; font-weight: 500; margin-bottom: 1.5rem;">Why Protocols? What does this have to do with disclosures?</h2>
+            <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 900px; margin-bottom: 1.5rem;">
+                At the AI Disclosures Project, we see disclosures through the lens of networking protocols and standards. Every networking protocol can also be thought of as a system of disclosures—but these are far more than warning labels or mandated reports.
+            </p>
+
+            <button class="expand-toggle" id="toggle-protocols" onclick="toggleProtocols()">
+                <span class="toggle-icon">+</span> Read more
+            </button>
+
+            <div class="expanded-panel" id="panel-protocols">
+                <div class="expanded-inner" style="max-width: 900px; padding-top: 1.5rem;">
+                    <p style="margin-bottom: 1.5rem;">
+                        They are a form of <strong>structured communication that enables independent, decentralized action</strong>. The race for first-mover advantage by large centralized AI providers suggests a hub-and-spoke railroad design, while a world of open-weight AI models connected by new modes of standardized communication could look more like a road system, or today's World Wide Web.
+                    </p>
+                    <p style="margin-bottom: 1.5rem;">
+                        If we want a world where everyone—not just AI model developers and those building on top of their centralized networks—is able to innovate and offer their work to others without paying a tax to access centralized networks, <strong>we need a system of disclosures that enables interoperability and discovery</strong>.
+                    </p>
+                    <p style="margin-bottom: 1.5rem;">
+                        In this approach, protocols, as a type of disclosure, can architect healthier AI markets—not after things are already too far gone, but through operating as foundational "rules of the road" that enable interoperability.
+                    </p>
+                    <p style="margin-bottom: 0.5rem; font-style: italic; color: var(--text-muted);">
+                        "We need to stop thinking of disclosures as some kind of mandated transparency that acts as an inhibition to innovation. Instead, we should understand them as an enabler. The more control rests with systems whose ownership is limited, and whose behavior is self-interested and opaque, the more permission is required to innovate. The more we have built 'the rule of law' (i.e. standards) into our systems, the more distributed innovation can flourish."
+                    </p>
+                    <p style="margin-bottom: 1.5rem; font-size: 0.95rem; color: var(--text-muted);">— Tim O'Reilly</p>
+                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <a href="https://asimovaddendum.substack.com/p/disclosures-i-do-not-think-that-word" target="_blank">Read: "Disclosures. I do not think that word means what you think it means" →</a>
+                        <a href="https://asimovaddendum.substack.com/p/protocols-and-power" target="_blank">Read: "Protocols and Power" →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="protocols-explainer big-picture-section" style="padding: 3rem 0; border-top: 1px solid var(--border);">
+            <h2 style="font-size: 2rem; font-weight: 500; margin-bottom: 1.5rem;">Why Disclosures?</h2>
+            <p style="font-size: 1.25rem; color: var(--text-muted); max-width: 900px; margin-bottom: 1.5rem;">
+                You can't regulate what you don't understand. And right now, critical information about how AI systems work, what data they use, and how they make decisions remains hidden inside corporate black boxes.
+            </p>
+
+            <button class="expand-toggle" id="toggle-disclosures" onclick="toggleDisclosures()">
+                <span class="toggle-icon">+</span> Read more
+            </button>
+
+            <div class="expanded-panel" id="panel-disclosures">
+                <div class="expanded-inner" style="max-width: 900px; padding-top: 1.5rem;">
+                    <p style="margin-bottom: 1.5rem;">
+                        <strong>Guard against AI's enshittification.</strong> Cory Doctorow's term captures how platforms start out serving users, then shift to serving business customers, and finally optimize for extracting value from both. Without transparency about operating metrics, we won't know when AI systems begin this transition—until it's too late.
+                    </p>
+                    <p style="margin-bottom: 1.5rem;">
+                        <strong>Disclosures as a language of benchmarks.</strong> Just as accounting standards created a shared language for understanding business performance, we need disclosure frameworks that let us compare AI systems against meaningful benchmarks—not just capability metrics, but measures of fairness, safety, and alignment with user interests.
+                    </p>
+                    <p style="margin-bottom: 1.5rem;">
+                        <strong>Disclosures shape market structure.</strong> The choice between open and closed disclosure regimes determines whether AI markets evolve like the open internet (where anyone can participate) or like railroads (controlled by a few gatekeepers). Disclosure standards, when designed well, become the protocols that enable competitive, innovative markets.
+                    </p>
+                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <a href="https://www.oreilly.com/radar/the-alignment-problem-is-not-new/" target="_blank">Read: "The Alignment Problem Is Not New" →</a>
+                        <a href="https://asimovaddendum.substack.com/p/algorithms-start-out-as-magic-but" target="_blank">Read: "Algorithms Start Out as Magic But..." →</a>
+                        <a href="https://asimovaddendum.substack.com/p/what-can-ai-learn-from-accounting" target="_blank">Read: "What Can AI Learn from Accounting?" →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="featured-article" style="padding: 3rem 0; border-top: 1px solid var(--border);">
+            <div class="mono" style="color: var(--accent); margin-bottom: 1rem;">Featured</div>
+            <a href="https://aifrontiersmedia.substack.com/p/open-protocols-can-prevent-ai-monopolies" target="_blank" style="text-decoration: none; display: block;">
+                <h2 style="font-size: 2rem; font-weight: 500; margin-bottom: 0.75rem; transition: color 0.3s ease;">Open Protocols Can Prevent AI Monopolies</h2>
+                <p style="font-size: 1.1rem; color: var(--text-muted); margin-bottom: 0.5rem;">Isobel Moure, Tim O'Reilly, and Ilan Strauss</p>
+                <p style="font-size: 0.95rem; color: var(--text-muted);">AI Frontiers · July 30, 2025</p>
+            </a>
+        </section>
+
+    </main>
+
+    <section class="convenings-preview">
+        <div class="container" style="margin-bottom: 2rem;">
+            <div class="mono" style="color: var(--accent);">Upcoming 2026</div>
+            <h2 style="font-size: 2rem; font-weight: 500; margin-top: 0.5rem;">Major Convenings</h2>
+        </div>
+        <div class="convenings-grid">
+            <a href="convenings.html#bellagio" class="convening-preview-card">
+                <div class="mono convening-date">Upcoming</div>
+                <h3 class="convening-title" style="font-size: 2rem;">Rockefeller Foundation, Bellagio Center, Italy</h3>
+                <p class="convening-location">27 April – 1 May 2026<br>Rockefeller Foundation · 21 Leaders</p>
+            </a>
+            <a href="convenings.html#foocamp" class="convening-preview-card">
+                <div class="mono convening-date">June 26–28</div>
+                <h3 class="convening-title">FOO Camp</h3>
+                <p class="convening-location">Lighthaven · Berkeley, CA</p>
+            </a>
+            <a href="convenings.html" class="convening-preview-card">
+                <div class="mono convening-date">TBC 2026</div>
+                <h3 class="convening-title">Economists Convening</h3>
+                <p class="convening-location">With Microsoft Research</p>
+            </a>
+        </div>
+    </section>
+
+    <section class="press-carousel-section">
+        <div class="container">
+            <div class="mono" style="color: var(--accent); margin-bottom: 0.5rem;">As Featured In</div>
+        </div>
+        <div class="press-carousel">
+            <div class="press-carousel-track">
+                <a href="https://techcrunch.com/2025/04/01/researchers-suggest-openai-trained-ai-models-on-paywalled-oreilly-books/" target="_blank" class="press-item">
+                    <span class="press-outlet">TechCrunch</span>
+                    <span class="press-headline">"Researchers suggest OpenAI trained AI models on paywalled O'Reilly books"</span>
+                </a>
+                <a href="https://www.fastcompany.com/91310223/an-ai-watchdog-accused-openai-of-using-copyrighted-books-without-permission" target="_blank" class="press-item">
+                    <span class="press-outlet">Fast Company</span>
+                    <span class="press-headline">"An AI watchdog accused OpenAI of using copyrighted books"</span>
+                </a>
+                <a href="https://www.theregister.com/2025/04/03/openai_copyright_bypass/" target="_blank" class="press-item">
+                    <span class="press-outlet">The Register</span>
+                    <span class="press-headline">"OpenAI wants to bend copyright rules"</span>
+                </a>
+                <a href="https://initiatives.weforum.org/forum-spaces/policy-navigator/publications/open-protocols-can-prevent-ai-monopolies/3aad01d56821f3946aee99651c5649c958653fbd" target="_blank" class="press-item">
+                    <span class="press-outlet">World Economic Forum</span>
+                    <span class="press-headline">"Open Protocols Can Prevent AI Monopolies"</span>
+                </a>
+                <a href="https://www.deeplearning.ai/the-batch/study-shows-openais-gpt-4o-model-can-identify-verbatim-excerpts-from-paywalled-oreilly-books/" target="_blank" class="press-item">
+                    <span class="press-outlet">The Batch</span>
+                    <span class="press-headline">"Study shows GPT-4o can identify verbatim excerpts from paywalled books"</span>
+                </a>
+                <a href="https://podcasts.apple.com/us/podcast/open-protocols-can-prevent-ai-monopolies-by-isobel/id1806906344?i=1000719842916" target="_blank" class="press-item">
+                    <span class="press-outlet">AI Frontiers Podcast</span>
+                    <span class="press-headline">"Open Protocols Can Prevent AI Monopolies"</span>
+                </a>
+                <!-- Duplicate for seamless loop -->
+                <a href="https://techcrunch.com/2025/04/01/researchers-suggest-openai-trained-ai-models-on-paywalled-oreilly-books/" target="_blank" class="press-item">
+                    <span class="press-outlet">TechCrunch</span>
+                    <span class="press-headline">"Researchers suggest OpenAI trained AI models on paywalled O'Reilly books"</span>
+                </a>
+                <a href="https://www.fastcompany.com/91310223/an-ai-watchdog-accused-openai-of-using-copyrighted-books-without-permission" target="_blank" class="press-item">
+                    <span class="press-outlet">Fast Company</span>
+                    <span class="press-headline">"An AI watchdog accused OpenAI of using copyrighted books"</span>
+                </a>
+                <a href="https://www.theregister.com/2025/04/03/openai_copyright_bypass/" target="_blank" class="press-item">
+                    <span class="press-outlet">The Register</span>
+                    <span class="press-headline">"OpenAI wants to bend copyright rules"</span>
+                </a>
+                <a href="https://podcasts.apple.com/us/podcast/open-protocols-can-prevent-ai-monopolies-by-isobel/id1806906344?i=1000719842916" target="_blank" class="press-item">
+                    <span class="press-outlet">AI Frontiers Podcast</span>
+                    <span class="press-headline">"Open Protocols Can Prevent AI Monopolies"</span>
+                </a>
+            </div>
+        </div>
+        <div class="container" style="margin-top: 1.5rem;">
+            <a href="press.html" class="press-link mono">View All Writings →</a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4 class="mono">Connect</h4>
+                <ul class="footer-links">
+                    <li><a href="https://github.com/AI-Disclosures-Project" target="_blank">GitHub</a></li>
+                    <li><a href="https://asimovaddendum.substack.com/" target="_blank">Subscribe on Substack</a></li>
+                    <li><a href="https://x.com/AIdisclosures" target="_blank">Follow on X</a></li>
+                    <li><a href="https://www.linkedin.com/company/the-ai-disclosures-project" target="_blank">LinkedIn</a></li>
+                    <li><a href="mailto:ilan@aidisclosures.org">Email the Researchers</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4 class="mono">Initiative</h4>
+                <ul class="footer-links">
+                    <li><a href="research.html">Research & Papers</a></li>
+                    <li><a href="talks.html">Talks & Presentations</a></li>
+                    <li><a href="convenings.html">Convenings</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4 class="mono">Institution</h4>
+                <ul class="footer-links">
+                    <li><a href="https://codeforscience.org" target="_blank">CS&S Homepage</a></li>
+                    <li><a href="mailto:ilan@aidisclosures.org">Media Inquiries</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4 class="mono">People</h4>
+                <ul class="footer-links">
+                    <li><a href="people.html#tim">Tim O'Reilly</a></li>
+                    <li><a href="people.html#ilan">Ilan Strauss</a></li>
+                    <li><a href="people.html#sruly">Sruly Rosenblat</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4 class="mono">Funders</h4>
+                <ul class="footer-links">
+                    <li>Alfred P. Sloan Foundation</li>
+                    <li>Omidyar Network</li>
+                    <li>Patrick J. McGovern Foundation</li>
+                </ul>
+            </div>
+        </div>
+        <div class="colophon">
+            <div>&copy; 2025 Tim O'Reilly and Ilan Strauss</div>
+            <div><a href="privacy.html">Privacy Policy</a></div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleProtocols() {
+            const panel = document.getElementById('panel-protocols');
+            const btn = document.getElementById('toggle-protocols');
+            const isOpen = panel.classList.contains('open');
+            panel.classList.toggle('open', !isOpen);
+            btn.querySelector('.toggle-icon').textContent = isOpen ? '+' : '−';
+            btn.childNodes[2].textContent = isOpen ? ' Read more' : ' Read less';
+        }
+
+        function toggleDisclosures() {
+            const panel = document.getElementById('panel-disclosures');
+            const btn = document.getElementById('toggle-disclosures');
+            const isOpen = panel.classList.contains('open');
+            panel.classList.toggle('open', !isOpen);
+            btn.querySelector('.toggle-icon').textContent = isOpen ? '+' : '−';
+            btn.childNodes[2].textContent = isOpen ? ' Read more' : ' Read less';
+        }
+
+        // Particle disintegration effect
+        (function() {
+            const container = document.getElementById('logoContainer');
+            const logo = document.getElementById('heroLogo');
+            const canvas = document.getElementById('particleCanvas');
+            const ctx = canvas.getContext('2d');
+
+            let particles = [];
+            let isDissolving = false;
+            let animationId = null;
+            let imageData = null;
+
+            function initCanvas() {
+                const rect = container.getBoundingClientRect();
+                canvas.width = rect.width;
+                canvas.height = rect.height;
+            }
+
+            function createParticles() {
+                particles = [];
+                const rect = container.getBoundingClientRect();
+                canvas.width = rect.width;
+                canvas.height = rect.height;
+
+                // Draw logo to canvas to sample pixels
+                const tempCanvas = document.createElement('canvas');
+                const tempCtx = tempCanvas.getContext('2d');
+                tempCanvas.width = canvas.width;
+                tempCanvas.height = canvas.height;
+
+                const img = new Image();
+                img.crossOrigin = "anonymous";
+                img.src = logo.src;
+
+                img.onload = function() {
+                    tempCtx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    const data = tempCtx.getImageData(0, 0, canvas.width, canvas.height);
+
+                    // Sample pixels and create particles
+                    const step = 4; // Sample every 4th pixel
+                    for (let y = 0; y < canvas.height; y += step) {
+                        for (let x = 0; x < canvas.width; x += step) {
+                            const i = (y * canvas.width + x) * 4;
+                            const alpha = data.data[i + 3];
+                            if (alpha > 50) {
+                                particles.push({
+                                    x: x,
+                                    y: y,
+                                    originX: x,
+                                    originY: y,
+                                    color: `rgba(${data.data[i]}, ${data.data[i+1]}, ${data.data[i+2]}, ${alpha/255})`,
+                                    size: Math.random() * 2 + 1,
+                                    vx: (Math.random() - 0.5) * 8,
+                                    vy: (Math.random() - 0.5) * 8 - 2,
+                                    life: 1
+                                });
+                            }
+                        }
+                    }
+                };
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                let allSettled = true;
+
+                particles.forEach(p => {
+                    if (isDissolving) {
+                        p.x += p.vx;
+                        p.y += p.vy;
+                        p.vy += 0.1; // gravity
+                        p.life -= 0.008;
+                        p.vx *= 0.99;
+                        p.vy *= 0.99;
+                    } else {
+                        // Reform
+                        const dx = p.originX - p.x;
+                        const dy = p.originY - p.y;
+                        p.x += dx * 0.08;
+                        p.y += dy * 0.08;
+                        p.life = Math.min(1, p.life + 0.02);
+
+                        if (Math.abs(dx) > 0.1 || Math.abs(dy) > 0.1) {
+                            allSettled = false;
+                        } else {
+                            // Snap to exact origin
+                            p.x = p.originX;
+                            p.y = p.originY;
+                        }
+                    }
+
+                    if (p.life > 0) {
+                        ctx.globalAlpha = p.life;
+                        ctx.fillStyle = p.color;
+                        ctx.fillRect(p.x, p.y, p.size, p.size);
+                    }
+                });
+
+                ctx.globalAlpha = 1;
+
+                if (!isDissolving && allSettled) {
+                    // Clear canvas completely so no grainy particles show
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    logo.classList.remove('dissolving');
+                    cancelAnimationFrame(animationId);
+                    animationId = null;
+                    return;
+                }
+
+                animationId = requestAnimationFrame(animate);
+            }
+
+            container.addEventListener('mouseenter', function() {
+                if (particles.length === 0) {
+                    createParticles();
+                    setTimeout(() => {
+                        isDissolving = true;
+                        logo.classList.add('dissolving');
+                        if (!animationId) animate();
+                    }, 100);
+                } else {
+                    isDissolving = true;
+                    logo.classList.add('dissolving');
+                    // Reset particle velocities
+                    particles.forEach(p => {
+                        p.vx = (Math.random() - 0.5) * 8;
+                        p.vy = (Math.random() - 0.5) * 8 - 2;
+                    });
+                    if (!animationId) animate();
+                }
+            });
+
+            container.addEventListener('mouseleave', function() {
+                isDissolving = false;
+            });
+
+            window.addEventListener('resize', initCanvas);
+        })();
+    </script>
+</body>
+</html>

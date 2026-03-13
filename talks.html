@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Talks & Presentations | AI Disclosures Project</title>
+    <link rel="icon" type="image/svg+xml" href="assets/logos/orange-full-color.svg">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #ffffff;
+            --accent: #FF7800;
+            --green: #145A2D;
+            --text-primary: #1a1a1a;
+            --text-muted: #5a5a54;
+            --border: #e2e1d8;
+
+            --font-serif: 'Newsreader', serif;
+            --font-mono: 'Space Mono', monospace;
+
+            --grid-gap: 2rem;
+
+            /* Shared item typography */
+            --item-title-size: 2.25rem;
+            --item-title-weight: 500;
+            --item-subtitle-size: 1.25rem;
+
+            /* Shared item hover */
+            --item-hover-bg: rgba(255, 120, 0, 0.05);
+            --item-hover-border: var(--accent);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-primary);
+            font-family: var(--font-serif);
+            font-size: 1.125rem;
+            line-height: 1.4;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        a:hover {
+            color: var(--green);
+        }
+
+        .mono {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 2rem 0 2rem;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            background-color: rgba(253, 252, 248, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+
+        .nav-brand {
+            font-weight: 600;
+            font-size: 1.25rem;
+            letter-spacing: -0.01em;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .nav-brand img {
+            height: 160px;
+        }
+
+        .nav-brand span {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            font-size: 1.4rem;
+            font-weight: 400;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--green);
+        }
+
+        .nav-links a.active {
+            color: var(--accent);
+            text-decoration: underline;
+            text-decoration-thickness: 1px;
+            text-underline-offset: 4px;
+        }
+
+        .nav-links a.active:hover {
+            color: var(--accent);
+        }
+
+        .page-header {
+            padding: 6rem 0 4rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .page-header h1 {
+            font-size: 5rem;
+            font-weight: 500;
+            letter-spacing: -0.03em;
+            line-height: 1;
+            margin-bottom: 1.5rem;
+        }
+
+        .page-intro {
+            font-size: 1.5rem;
+            max-width: 800px;
+            color: var(--text-muted);
+            line-height: 1.3;
+        }
+
+        .presentation-entry {
+            padding: 3rem 2rem;
+            border-bottom: 1px solid var(--border);
+            border-left: 3px solid transparent;
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .presentation-entry:hover {
+            background-color: var(--item-hover-bg);
+            border-left-color: var(--item-hover-border);
+        }
+
+        .presentation-entry:hover .presentation-title {
+            color: var(--accent);
+        }
+
+        .presentation-entry:hover .venue-name {
+            color: var(--green);
+        }
+
+        .presentation-grid {
+            display: grid;
+            grid-template-columns: 3fr 9fr;
+            gap: 4rem;
+        }
+
+        .presentation-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .speaker-name {
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .event-date {
+            color: var(--text-muted);
+            font-size: 1.125rem;
+        }
+
+        .presentation-title {
+            font-size: var(--item-title-size);
+            line-height: 1.2;
+            font-weight: var(--item-title-weight);
+            margin-bottom: 1rem;
+            letter-spacing: -0.01em;
+        }
+
+        .presentation-title a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .presentation-title a:hover {
+            color: var(--accent);
+        }
+
+        .venue-name {
+            font-style: italic;
+            font-size: var(--item-subtitle-size);
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .tag-list {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .tag {
+            padding: 0.25rem 0.6rem;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .expand-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            background: none;
+            border: none;
+            padding: 0;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--accent);
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+        }
+
+        .expand-toggle:hover {
+            opacity: 0.7;
+        }
+
+        .expand-toggle .toggle-icon {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 1px solid var(--accent);
+            border-radius: 50%;
+            line-height: 14px;
+            text-align: center;
+            font-size: 0.9rem;
+            transition: transform 0.3s ease;
+        }
+
+        .expand-toggle.open .toggle-icon {
+            transform: rotate(45deg);
+        }
+
+        .expanded-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .expanded-content.open {
+            max-height: 500px;
+            opacity: 1;
+        }
+
+        .abstract {
+            margin-top: 1.5rem;
+            max-width: 800px;
+            font-size: 1.125rem;
+            line-height: 1.6;
+            color: var(--text-primary);
+        }
+
+        .resource-links {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .resource-link {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--green);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .resource-link:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            background-color: var(--green);
+            color: #F2EFEB;
+            padding: 1.5rem 2rem 3rem 2rem;
+            margin-top: 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .footer-title {
+            font-size: 2rem;
+            font-weight: 500;
+            line-height: 1.1;
+        }
+
+        .footer-sub {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            opacity: 0.5;
+        }
+
+        @media (max-width: 1024px) {
+            .presentation-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            .page-header h1 {
+                font-size: 3.5rem;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="nav-brand">
+            <img src="assets/logos/logo-transparent.svg" alt="AI Disclosures Project">
+        </a>
+        <div class="nav-links">
+            <a href="index.html">Overview</a>
+            <a href="research.html">Research</a>
+            <a href="talks.html" class="active">Talks</a>
+            <a href="convenings.html">Convenings</a>
+            <a href="press.html">Writings</a>
+            <a href="blog.html">Blog</a>
+            <a href="people.html">People</a>
+        </div>
+    </nav>
+
+    <main class="container">
+
+        <header class="page-header">
+            <div class="mono" style="color: var(--accent); margin-bottom: 1rem;">Public Engagement</div>
+            <h1>Talks & Presentations</h1>
+            <p class="page-intro">Disseminating our findings and frameworks at the intersection of technological governance, market concentration, and implementation mechanisms.</p>
+        </header>
+
+
+        <!-- 2025 Talks -->
+        <article class="presentation-entry">
+            <div class="presentation-grid">
+                <div class="presentation-meta">
+                    <div class="speaker-name">Sruly Rosenblat & Ilan Strauss</div>
+                    <div class="event-date">November 19, 2025</div>
+                    <div class="tag-list">
+                        <span class="tag">Research</span>
+                        <span class="tag">Academic</span>
+                    </div>
+                </div>
+                <div class="presentation-body">
+                    <h2 class="presentation-title"><a href="https://csde.washington.edu/news-events/new-csde-computational-demography-working-group-cdwg-dr-ilan-strauss-and-sruly-rosenblat-11-19-25/" target="_blank">Can We Detect Paywalled Content in LLM (Pre-)Training Data?</a></h2>
+                    <div class="venue-name">Computational Demography Working Group (CDWG), University of Washington</div>
+
+                    <div class="resource-links" style="border-top: none; margin-top: 1rem;">
+                        <a href="https://csde.washington.edu/news-events/new-csde-computational-demography-working-group-cdwg-dr-ilan-strauss-and-sruly-rosenblat-11-19-25/" target="_blank" class="resource-link">→ Event Page</a>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <article class="presentation-entry">
+            <div class="presentation-grid">
+                <div class="presentation-meta">
+                    <div class="speaker-name">Ilan Strauss</div>
+                    <div class="event-date">September 10, 2025</div>
+                    <div class="tag-list">
+                        <span class="tag">Research</span>
+                        <span class="tag">Academic</span>
+                    </div>
+                </div>
+                <div class="presentation-body">
+                    <h2 class="presentation-title"><a href="https://uwaterloo.ca/artificial-intelligence-institute/events/attribution-crisis-llm-search-results-estimating-ecosystem-0" target="_blank">The Attribution Crisis in LLM Search Results: Estimating Ecosystem Exploitation</a></h2>
+                    <div class="venue-name">Waterloo Data and Artificial Intelligence Institute, University of Waterloo</div>
+
+                    <div class="resource-links" style="border-top: none; margin-top: 1rem;">
+                        <a href="https://uwaterloo.ca/artificial-intelligence-institute/events/attribution-crisis-llm-search-results-estimating-ecosystem-0" target="_blank" class="resource-link">→ Event Page</a>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <article class="presentation-entry">
+            <div class="presentation-grid">
+                <div class="presentation-meta">
+                    <div class="speaker-name">Ilan Strauss</div>
+                    <div class="event-date">September 10, 2025</div>
+                    <div class="tag-list">
+                        <span class="tag">Interview</span>
+                        <span class="tag">Video</span>
+                    </div>
+                </div>
+                <div class="presentation-body">
+                    <h2 class="presentation-title"><a href="https://www.youtube.com/watch?v=hXNw6vDtojs" target="_blank">Market Disclosures Will Determine the Future of AI</a></h2>
+                    <div class="venue-name">Hack Club Interview</div>
+
+                    <div class="resource-links" style="border-top: none; margin-top: 1rem;">
+                        <a href="https://www.youtube.com/watch?v=hXNw6vDtojs" target="_blank" class="resource-link">→ Watch Video</a>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <article class="presentation-entry">
+            <div class="presentation-grid">
+                <div class="presentation-meta">
+                    <div class="speaker-name">Ilan Strauss</div>
+                    <div class="event-date">August 1, 2025</div>
+                    <div class="tag-list">
+                        <span class="tag">Webinar</span>
+                        <span class="tag">Academic</span>
+                    </div>
+                </div>
+                <div class="presentation-body">
+                    <h2 class="presentation-title"><a href="https://www.youtube.com/watch?v=7KdvF3ecr5s" target="_blank">Who Will Police Generative AI? Lessons from the Private Armies Who Patrol the Internet</a></h2>
+                    <div class="venue-name">SARChI Webinar Series, University of Johannesburg</div>
+
+                    <div class="resource-links" style="border-top: none; margin-top: 1rem;">
+                        <a href="https://www.youtube.com/watch?v=7KdvF3ecr5s" target="_blank" class="resource-link">→ Watch Video</a>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <article class="presentation-entry">
+            <div class="presentation-grid">
+                <div class="presentation-meta">
+                    <div class="speaker-name">Ilan Strauss & Sruly Rosenblat</div>
+                    <div class="event-date">July 2025</div>
+                    <div class="tag-list">
+                        <span class="tag">Fireside Chat</span>
+                        <span class="tag">Policy</span>
+                    </div>
+                </div>
+                <div class="presentation-body">
+                    <h2 class="presentation-title"><a href="https://www.youtube.com/watch?v=xSjEJfqGxlY" target="_blank">Making AI's Thinking and Behaviour More Transparent</a></h2>
+                    <div class="venue-name">Data for Policy Fireside Chat</div>
+
+                    <div class="resource-links" style="border-top: none; margin-top: 1rem;">
+                        <a href="https://www.youtube.com/watch?v=xSjEJfqGxlY" target="_blank" class="resource-link">→ Watch Video</a>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <article class="presentation-entry">
+            <div class="presentation-grid">
+                <div class="presentation-meta">
+                    <div class="speaker-name">Tim O'Reilly</div>
+                    <div class="event-date">May 20, 2025</div>
+                    <div class="tag-list">
+                        <span class="tag">Panel</span>
+                        <span class="tag">Policy</span>
+                    </div>
+                </div>
+                <div class="presentation-body">
+                    <h2 class="presentation-title"><a href="https://www.youtube.com/watch?v=Xb3rHgOcupY" target="_blank">Comments for the Second Convening of the Oxford Consultation on Copyright and AI</a></h2>
+                    <div class="venue-name">Oxford Consultation on Copyright and AI (Virtual)</div>
+
+                    <div class="resource-links" style="border-top: none; margin-top: 1rem;">
+                        <a href="https://www.youtube.com/watch?v=Xb3rHgOcupY" target="_blank" class="resource-link">→ Watch Video</a>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <article class="presentation-entry">
+            <div class="presentation-grid">
+                <div class="presentation-meta">
+                    <div class="speaker-name">Ilan Strauss</div>
+                    <div class="event-date">April 4, 2025</div>
+                    <div class="tag-list">
+                        <span class="tag">Presentation</span>
+                        <span class="tag">Policy</span>
+                    </div>
+                </div>
+                <div class="presentation-body">
+                    <h2 class="presentation-title"><a href="#">Cloud Infrastructure as a Regulatory Layer for AI?</a></h2>
+                    <div class="venue-name">ITREV Forum</div>
+                </div>
+            </div>
+        </article>
+
+        <!-- 2024 Talks -->
+        <article class="presentation-entry">
+            <div class="presentation-grid">
+                <div class="presentation-meta">
+                    <div class="speaker-name">Ilan Strauss</div>
+                    <div class="event-date">December 3, 2024</div>
+                    <div class="tag-list">
+                        <span class="tag">Presentation</span>
+                        <span class="tag">Academic</span>
+                    </div>
+                </div>
+                <div class="presentation-body">
+                    <h2 class="presentation-title"><a href="#">The Cloud as a Regulatory Layer for AI: Considerations in Information and Regulation</a></h2>
+                    <div class="venue-name">Yale, Jackson School of Global Affairs</div>
+                </div>
+            </div>
+        </article>
+
+        <article class="presentation-entry">
+            <div class="presentation-grid">
+                <div class="presentation-meta">
+                    <div class="speaker-name">Ilan Strauss</div>
+                    <div class="event-date">May 31, 2024</div>
+                    <div class="tag-list">
+                        <span class="tag">Conference</span>
+                        <span class="tag">Research</span>
+                    </div>
+                </div>
+                <div class="presentation-body">
+                    <h2 class="presentation-title"><a href="#">Can Advertising on Amazon Create Harms?</a></h2>
+                    <div class="venue-name">BECCLE: Competition Law and Economics Conference, Bergen</div>
+                </div>
+            </div>
+        </article>
+
+        <!-- 2023 Talks -->
+        <article class="presentation-entry">
+            <div class="presentation-grid">
+                <div class="presentation-meta">
+                    <div class="speaker-name">Tim O'Reilly</div>
+                    <div class="event-date">November 16, 2023</div>
+                    <div class="tag-list">
+                        <span class="tag">Lecture</span>
+                        <span class="tag">Policy</span>
+                    </div>
+                </div>
+                <div class="presentation-body">
+                    <h2 class="presentation-title"><a href="#">Wrestling with the Angel: The Promise and Peril of AI</a></h2>
+                    <div class="venue-name">European Union Employment and Social Rights Forum</div>
+                </div>
+            </div>
+        </article>
+
+        <article class="presentation-entry">
+            <div class="presentation-grid">
+                <div class="presentation-meta">
+                    <div class="speaker-name">Tim O'Reilly</div>
+                    <div class="event-date">October 10, 2023</div>
+                    <div class="tag-list">
+                        <span class="tag">Lecture</span>
+                        <span class="tag">Academic</span>
+                    </div>
+                </div>
+                <div class="presentation-body">
+                    <h2 class="presentation-title"><a href="#">Breaking Bad: The Journey from Collective Intelligence to Algorithmic Rents</a></h2>
+                    <div class="venue-name">Minderoo Centre Lecture, Cambridge University</div>
+                </div>
+            </div>
+        </article>
+
+    </main>
+
+    <footer>
+        <div>
+            <div class="footer-title">AI Disclosures Project</div>
+            <div class="footer-sub" style="margin-top: 1rem;">Code for Science & Society</div>
+            <div class="footer-sub" style="margin-top: 0.5rem;">
+                <a href="https://github.com/AI-Disclosures-Project" target="_blank" style="color: inherit; text-decoration: underline;">GitHub</a> ·
+                <a href="https://asimovaddendum.substack.com/" target="_blank" style="color: inherit; text-decoration: underline;">Substack</a> ·
+                <a href="https://x.com/AIdisclosures" target="_blank" style="color: inherit; text-decoration: underline;">X</a> ·
+                <a href="https://www.linkedin.com/company/the-ai-disclosures-project" target="_blank" style="color: inherit; text-decoration: underline;">LinkedIn</a>
+            </div>
+        </div>
+        <div style="text-align: right;">
+            <div class="footer-sub">© 2025 Tim O'Reilly and Ilan Strauss</div>
+            <div class="footer-sub" style="margin-top: 0.5rem;"><a href="privacy.html" style="color: inherit; text-decoration: none;">Privacy Policy</a></div>
+        </div>
+    </footer>
+
+    <script>
+        function togglePresentation(id, btn) {
+            const panel = document.getElementById(id);
+            const isOpen = panel.classList.contains('open');
+
+            panel.classList.toggle('open', !isOpen);
+            btn.classList.toggle('open', !isOpen);
+
+            const icon = btn.querySelector('.toggle-icon');
+            icon.textContent = isOpen ? '+' : '+';
+        }
+    </script>
+
+</body>
+</html>
